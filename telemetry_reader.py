@@ -9,6 +9,7 @@ with open("telemetry.csv", "r") as file:
         time = int(row[0])
         fuel = int(row[3])
         altitude = int(row[4])
+        temperature=int
 
         print(time)
         print(fuel)
@@ -16,3 +17,4 @@ with open("telemetry.csv", "r") as file:
         if fuel < 90:
             print("Low Fuel")
         print("------------")
+         
