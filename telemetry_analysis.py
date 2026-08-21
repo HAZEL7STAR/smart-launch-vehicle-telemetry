@@ -3,6 +3,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
 
 
 # 2. Load telemetry data
@@ -16,7 +17,18 @@ print("Average Temperature:", data["Temperature"].mean())
 print("Average Fuel:", data["Fuel"].mean())
 print("Maximum Altitude:", data["Altitude"].max())
 print("Maximum Velocity:", data["Velocity"].max())
+correlation = data.corr(numeric_only=True)
 
+print(correlation)
+plt.figure(figsize=(10,6))
+
+sns.heatmap(
+    correlation,
+    annot=True
+)
+
+plt.title("Telemetry Correlation Matrix")
+plt.show()
 
 # 4. Diagnostic function
 
@@ -38,7 +50,15 @@ data["Diagnostic"] = data.apply(
     lambda row: check_status(row["Temperature"], row["Fuel"]),
     axis=1
 )
+temperature_by_status = data.groupby("Diagnostic")["Temperature"].mean()
 
+print(temperature_by_status)
+temperature_sorted = data.sort_values(
+    by="Temperature",
+    ascending=False
+)
+
+print(temperature_sorted[["Time", "Temperature", "Diagnostic"]])
 
 # 6. Diagnostic summary
 
